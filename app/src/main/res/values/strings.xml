@@ -1,15 +1,44 @@
 <resources>
     <string name="app_name">RESTful-ClientExample</string>
 
-    <string-array name="uri_conn_arraylist">
+    <string-array name="get_uri_conn_arraylist">
         <item>http:www.google.com</item>
         <item>http://www.stackoverflow.com</item>
+        <item>https://jsonplaceholder.typicode.com/users</item>
+        <item>https://jsonplaceholder.typicode.com/users/1</item>
+        <item>https://jsonplaceholder.typicode.com/users/2</item>
         <item>https://jsonplaceholder.typicode.com/posts</item>
         <item>https://jsonplaceholder.typicode.com/comments</item>
         <item>https://jsonplaceholder.typicode.com/albums</item>
         <item>https://jsonplaceholder.typicode.com/photos</item>
         <item>https://jsonplaceholder.typicode.com/todos</item>
-        <item>https://jsonplaceholder.typicode.com/users</item>
         <item>http://services.groupkt.com/country/get/all</item>
     </string-array>
+
+    <string-array name="post_uri_conn_arraylist">
+        <item>{\"id\": 100000,\"name\": \"OSCAR AARON REVILLA ESCALONA\",\"username\": \"AARONREVILLA\",\"email\": \"aaronrevilla@mobileappscompany.com\"}</item>
+        <item>{\"id\": 2,\"name\": \"KOTI\",\"username\": \"KOTI\",\"email\": \"koti@mobileappscompany.com\"}</item>
+    </string-array>
+
+    <string-array name="put_uri_conn_arraylist">
+        <item>{\"name\": \"Ervin Howell Smith\",\"username\": \"AntonetteSmith\",\"email\": \"ShannaSmith@melissa.tv\"}</item>
+    </string-array>
+
+    <string-array name="patch_uri_conn_arraylist">
+        <item>{\"name\": \"Ervin Howell Some\"}</item>
+    </string-array>
+
+    <string-array name="delete_uri_conn_arraylist">
+        <item></item>
+    </string-array>
+
+
+    <string-array name="request_operations">
+        <item>POST</item>
+        <item>GET</item>
+        <item>PUT</item>
+        <item>PATCH</item>
+        <item>DELETE</item>
+    </string-array>
+
 </resources>

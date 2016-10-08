@@ -18,9 +18,23 @@ import com.example.aaron.restful_clientexample.net.HttpManager;
 
 public class NativeConnection extends AppCompatActivity {
 
-    TextView output;
-    Spinner dropDownMenu;
-    String selectedUri;
+    public TextView output;
+    public Spinner dropDownMenu;
+    public Spinner dropDownRequesOp;
+    public String selectedUri, progress, result;
+    //REQUEST TYPES CONST
+    public static int REQUES_OP  = 0;
+    public final  int POST = 0;
+    public final  int GET = 1;
+    public final  int PUT = 2;
+    public final  int PATCH = 3;
+    public final  int DELETE = 4;
+    public ArrayAdapter<CharSequence> adapterPOST;
+    public ArrayAdapter<CharSequence> adapterGET;
+    public ArrayAdapter<CharSequence> adapterPUT;
+    public ArrayAdapter<CharSequence> adapterPATCH;
+    public ArrayAdapter<CharSequence> adapterDELETE;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,18 +44,39 @@ public class NativeConnection extends AppCompatActivity {
         output = ((TextView) findViewById(R.id.output));
         output.setMovementMethod(new ScrollingMovementMethod());
 
-        dropDownMenu = ((Spinner) findViewById(R.id.spinner));
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.uri_conn_arraylist, R.layout.support_simple_spinner_dropdown_item);
-        adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-        dropDownMenu.setAdapter(adapter);
-        dropDownMenu.setOnItemSelectedListener(new SpinnerActivity());
+        //first spinner
+        dropDownRequesOp = ((Spinner) findViewById(R.id.spinnerRequestOp));
+        ArrayAdapter<CharSequence> adapterROp = ArrayAdapter.createFromResource(this, R.array.request_operations, R.layout.support_simple_spinner_dropdown_item);
+        adapterROp.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        dropDownRequesOp.setAdapter(adapterROp);
+        dropDownRequesOp.setOnItemSelectedListener(new SpinnerActivityROp());
 
+        //second spinner
+        dropDownMenu = ((Spinner) findViewById(R.id.spinner));
+
+        adapterPOST =  ArrayAdapter.createFromResource(this, R.array.post_uri_conn_arraylist, R.layout.support_simple_spinner_dropdown_item);
+        adapterPOST.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+
+        adapterGET =  ArrayAdapter.createFromResource(this, R.array.get_uri_conn_arraylist, R.layout.support_simple_spinner_dropdown_item);
+        adapterGET.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+
+        adapterPUT =  ArrayAdapter.createFromResource(this, R.array.put_uri_conn_arraylist, R.layout.support_simple_spinner_dropdown_item);
+        adapterPUT.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+
+        adapterPATCH =  ArrayAdapter.createFromResource(this, R.array.patch_uri_conn_arraylist, R.layout.support_simple_spinner_dropdown_item);
+        adapterPATCH.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+
+        adapterDELETE =  ArrayAdapter.createFromResource(this, R.array.delete_uri_conn_arraylist, R.layout.support_simple_spinner_dropdown_item);
+        adapterDELETE.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+
+        //dropDownMenu.setAdapter(adapter);
+        dropDownMenu.setOnItemSelectedListener(new SpinnerActivity());
     }
 
     public void sendRequest(String uri){
         output.setText("");
         ConnectionThread asyncThread = new ConnectionThread();
-        asyncThread.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, uri, "Param2", "Param3");
+        asyncThread.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, uri, progress, result);
         //asyncThread.execute("Param 1", "Param 2", "Param 3");
     }
 
@@ -73,7 +108,7 @@ public class NativeConnection extends AppCompatActivity {
             String uri = params[0];
             String response;
             if(isOnline()){
-                response = HttpManager.getData(uri);
+                response = HttpManager.getData(uri, REQUES_OP);
             }
             else{
                 response = "The device has no connection to Internet";
@@ -90,12 +125,45 @@ public class NativeConnection extends AppCompatActivity {
     }
 
     //Spinner events
+    public class SpinnerActivityROp extends Activity implements AdapterView.OnItemSelectedListener {
+
+        public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+            // An item was selected. You can retrieve the selected item using
+            REQUES_OP = pos;
+
+            switch (pos){
+                case POST:
+                    dropDownMenu.setAdapter(adapterPOST);
+                    break;
+                case GET:
+                    dropDownMenu.setAdapter(adapterGET);
+                    break;
+                case PUT:
+                    dropDownMenu.setAdapter(adapterPUT);
+                    break;
+                case PATCH:
+                    dropDownMenu.setAdapter(adapterPATCH);
+                    break;
+                case DELETE:
+                    dropDownMenu.setAdapter(adapterDELETE);
+                    break;
+            }
+
+            //Log.d("DEBUG", selectedUri);
+        }
+
+        public void onNothingSelected(AdapterView<?> parent) {
+            // Another interface callback
+        }
+    }
+
+    //Spinner events
     public class SpinnerActivity extends Activity implements AdapterView.OnItemSelectedListener {
 
         public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
             // An item was selected. You can retrieve the selected item using
             selectedUri = String.valueOf( parent.getItemAtPosition(pos));
-            Log.d("DEBUG", selectedUri);
+            //Log.d("DEBUG", selectedUri);
         }
 
         public void onNothingSelected(AdapterView<?> parent) {
