@@ -8,8 +8,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.LayoutManager;
 import android.text.method.ScrollingMovementMethod;
+import android.view.View;
 import android.widget.TextView;
 
+import com.example.aaron.restful_clientexample.pojos.Album;
 import com.example.aaron.restful_clientexample.utils.AlbumAdapter;
 
 public class VolleyConnection extends AppCompatActivity {
@@ -52,5 +54,37 @@ public class VolleyConnection extends AppCompatActivity {
         else{
             return false;
         }
+    }
+
+    public void addAlbum(View view) {
+        Album album = new Album();
+        album.setTitle("The Beatles");
+        album.setAlbumId(1000);
+        album.setId(1000);
+        album.setThumbnailUrl("https://beatlesfacts.files.wordpress.com/2012/05/beatles-british-flag.gif");
+        album.setUrl("https://beatlesfacts.files.wordpress.com/2012/05/beatles-british-flag.gif");
+
+        AlbumAdapter auxAlbumAdapater = (AlbumAdapter) rView.getAdapter();
+        auxAlbumAdapater.addAlbum(album);
+
+        rView.setAdapter(auxAlbumAdapater);
+    }
+
+    public void modifyAlbum(View view) {
+        AlbumAdapter auxAlbumAdapater = (AlbumAdapter) rView.getAdapter();
+        auxAlbumAdapater.modifyAlbum(0);
+        rView.setAdapter(auxAlbumAdapater);
+    }
+
+    public void patchAlbum(View view) {
+        AlbumAdapter auxAlbumAdapater = (AlbumAdapter) rView.getAdapter();
+        auxAlbumAdapater.patchAlbum(0);
+        rView.setAdapter(auxAlbumAdapater);
+    }
+
+    public void deleteAlbum(View view) {
+        AlbumAdapter auxAlbumAdapater = (AlbumAdapter) rView.getAdapter();
+        auxAlbumAdapater.deleteAlbum(0);
+        rView.setAdapter(auxAlbumAdapater);
     }
 }

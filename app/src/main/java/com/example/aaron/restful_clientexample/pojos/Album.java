@@ -118,4 +118,14 @@ public class Album {
         this.thumbnailUrl = thumbnailUrl;
     }
 
+    @Override
+    public String toString() {
+        return "Album{" +
+                "albumId=" + albumId +
+                ", id=" + id +
+                ", title='" + title + '\'' +
+                ", url='" + url + '\'' +
+                ", thumbnailUrl='" + thumbnailUrl + '\'' +
+                '}';
+    }
 }
