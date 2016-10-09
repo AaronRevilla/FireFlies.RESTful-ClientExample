@@ -20,4 +20,19 @@ public class MainActivity extends AppCompatActivity {
         startActivity(nativeConnIntent);
 
     }
+
+    public void volleyConnection(View view) {
+
+        Intent volleyConnection = new Intent(this, VolleyConnection.class);
+        startActivity(volleyConnection);
+
+    }
+
+
+    public void retroFitConnection(View view) {
+
+        Intent retroFitConnection = new Intent(this, RetroFitConnection.class);
+        startActivity(retroFitConnection);
+
+    }
 }

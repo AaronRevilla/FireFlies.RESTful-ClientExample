@@ -17,7 +17,7 @@
 
     <string-array name="post_uri_conn_arraylist">
         <item>{\"id\": 100000,\"name\": \"OSCAR AARON REVILLA ESCALONA\",\"username\": \"AARONREVILLA\",\"email\": \"aaronrevilla@mobileappscompany.com\"}</item>
-        <item>{\"id\": 2,\"name\": \"KOTI\",\"username\": \"KOTI\",\"email\": \"koti@mobileappscompany.com\"}</item>
+        <item>{\"id\": 2,\"name\": \"YUVA KOTI\",\"username\": \"YUVA KOTI\",\"email\": \"yuvakoti@mobileappscompany.com\"}</item>
     </string-array>
 
     <string-array name="put_uri_conn_arraylist">
