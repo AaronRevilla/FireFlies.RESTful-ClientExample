@@ -14,13 +14,11 @@ import retrofit2.http.Path;
 
 public interface RetrofitAlbumsInterface {
 
-    /*@GET("/photos/{id}")
-    Call<List<Album>> contributors(
-            @Path("id") String id
-    );*/
+    @GET("/photos/{id}")
+    Call<Album> getAlbumbyId(@Path("id") String id);
 
     @GET("/photos")
-    Call<List<Album>> contributors();
+    Call<List<Album>> getAlbums();
 
     /*static class Contributor {
 

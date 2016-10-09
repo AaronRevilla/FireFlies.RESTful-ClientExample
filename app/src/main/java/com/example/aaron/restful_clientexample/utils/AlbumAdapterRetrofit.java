@@ -7,12 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.example.aaron.restful_clientexample.R;
 import com.example.aaron.restful_clientexample.pojos.Album;
 
@@ -20,8 +15,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by User on 10/8/2016.
@@ -31,17 +31,15 @@ public class AlbumAdapterRetrofit extends RecyclerView.Adapter<AlbumAdapterRetro
     public List<Album> albums = new ArrayList<Album>();
     Context context;
     TextView output;
-    //RetrofitAlbumsInterface albumsServices;
+    RetrofitAlbumsInterface albumsServices;
 
     public AlbumAdapterRetrofit(Context context, TextView output){
         this.context = context;
         this.output = output;
 
-        RetrofitAlbumsInterface albumsServices = RetrofitServiceGenerator.createService(RetrofitAlbumsInterface.class);
-        // Fetch and print a list of the contributors to this library.
-        List<Album> contributors = (List<Album>) albumsServices.contributors();
-
-        //requestAlbums();
+        //Init RetrofitService
+        albumsServices = RetrofitServiceGenerator.createService(RetrofitAlbumsInterface.class);
+        getAlbums();
     }
 
     @Override
@@ -56,10 +54,6 @@ public class AlbumAdapterRetrofit extends RecyclerView.Adapter<AlbumAdapterRetro
         // Return a new holder instance
         AlbumAdapterRetrofit.AlbumViewHolder albumViewHolder = new AlbumAdapterRetrofit.AlbumViewHolder(contactView);
         return albumViewHolder;
-    }
-
-    public void requestAlbums(){
-
     }
 
     @Override
@@ -84,6 +78,42 @@ public class AlbumAdapterRetrofit extends RecyclerView.Adapter<AlbumAdapterRetro
                 ImageLoader.getImageListener(   img,
                         R.drawable.ic_account_circle_black_48dp,
                         R.drawable.ic_error_outline_black_24dp));
+    }
+
+    public void getAlbums(){
+        output.setText("GET ALL ALBUMS CALL\n");
+        Call<List<Album>> call = albumsServices.getAlbums();
+        call.enqueue(new Callback<List<Album>>() {
+            @Override
+            public void onResponse(Call<List<Album>> call, Response<List<Album>> response) {
+                albums = response.body();
+                notifyDataSetChanged();
+                output.append("ALL ALBUMS WERE READ, TOTAL=" + albums.size() + "\n");
+            }
+
+            @Override
+            public void onFailure(Call<List<Album>> call, Throwable t) {
+                output.setText("ERROR DURING THE CALL TO THE SERVICE\n" + t.getStackTrace().toString());
+            }
+        });
+    }
+
+    public void getUserById(String userId){
+        output.setText("GET ALBUM BY ID CALL id=" + userId + "\n");
+        Call<Album> call = albumsServices.getAlbumbyId(userId);
+        call.enqueue(new Callback<Album>() {
+            @Override
+            public void onResponse(Call<Album> call, Response<Album> response) {
+                albums.add(response.body());
+                notifyDataSetChanged();
+                output.append("ALBUMS READED " + albums.size() + "\n");
+            }
+
+            @Override
+            public void onFailure(Call<Album> call, Throwable t) {
+                output.setText("ERROR DURING THE CALL TO THE SERVICE\n" + t.getStackTrace().toString());
+            }
+        });
     }
 
     @Override

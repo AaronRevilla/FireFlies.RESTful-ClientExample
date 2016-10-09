@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.41"
-        android:text="Volley Connection"
+        android:text="Retrofit Connection"
         android:layout_gravity="center"
         android:textSize="18sp"
         android:gravity="center"/>

@@ -1,5 +1,7 @@
 package com.example.aaron.restful_clientexample;
 
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -27,12 +29,28 @@ public class VolleyConnection extends AppCompatActivity {
 
         rView = ((RecyclerView) findViewById(R.id.rView));
 
-        // use a linear layout manager
-        mLayoutManager = new LinearLayoutManager(this);
-        rView.setLayoutManager(mLayoutManager);
-        // specify an adapter
-        AlbumAdapter albumAdapter = new AlbumAdapter(this, output);
-        rView.setAdapter(albumAdapter);
+        if(isOnline()){
+            // use a linear layout manager
+            mLayoutManager = new LinearLayoutManager(this);
+            rView.setLayoutManager(mLayoutManager);
+            // specify an adapter
+            AlbumAdapter albumAdapter = new AlbumAdapter(this, output);
+            rView.setAdapter(albumAdapter);
+        }
+        else{
+            output.setText("The device has no connection to Internet");
+        }
 
+    }
+
+    public boolean isOnline(){
+        ConnectivityManager cm  = ((ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE));
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        if (netInfo != null && netInfo.isConnectedOrConnecting()){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 }
