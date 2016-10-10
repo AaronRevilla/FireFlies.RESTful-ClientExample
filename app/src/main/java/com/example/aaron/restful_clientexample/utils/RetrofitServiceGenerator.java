@@ -12,7 +12,7 @@ public class RetrofitServiceGenerator {
 
     public static final String API_BASE_URL = "https://jsonplaceholder.typicode.com";
 
-    private static OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+    //private static OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
 
     private static Retrofit builder = new Retrofit.Builder().baseUrl(API_BASE_URL)
                                                                     .addConverterFactory(GsonConverterFactory.create())

@@ -89,7 +89,6 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumViewHol
                                 auxAlbum.setUrl(jsonObj.getString("url"));
                                 auxAlbum.setThumbnailUrl(jsonObj.getString("thumbnailUrl"));
                                 albums.add(auxAlbum);
-                                //notifyDataSetChanged();
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -100,8 +99,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumViewHol
 
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        // TODO Auto-generated method stub
-
+                        Log.d("ERROR", error.getStackTrace().toString());
                     }
                 });
 
@@ -123,32 +121,16 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumViewHol
         title.setText("Title: " + album.getTitle());
         url.setText("URL: " + album.getUrl());
 
+        Glide.with(context).load(album.getUrl()).placeholder(R.drawable.ic_account_circle_black_48dp).override(150,150).centerCrop().into(img);
+
         // Retrieves an image specified by the URL, displays it in the UI.
         //ImageLoader mImageLoader;
         //mImageLoader = VolleyQueueSingleton.getInstance(context).getImageLoader();
         //img.setImageUrl("http://az616578.vo.msecnd.net/files/2016/04/23/635969800309510397-600135549_Album-1.jpg", mImageLoader);
-        Glide.with(context).load(album.getUrl()).placeholder(R.drawable.ic_account_circle_black_48dp).override(150,150).centerCrop().into(img);
        /* mImageLoader.get(   album.getUrl(),
                             ImageLoader.getImageListener(   img,
                                                             R.drawable.ic_account_circle_black_48dp,
                                                             R.drawable.ic_error_outline_black_24dp));*/
-        /*int max = 250;
-        mImageLoader = new ImageRequest(  "http://az616578.vo.msecnd.net/files/2016/04/23/635969800309510397-600135549_Album-1.jpg",
-                                    new Response.Listener<Bitmap>() {
-
-                                        @Override
-                                        public void onResponse(Bitmap response) {
-                                            img.setImageBitmap(response);
-                                        }
-                                    }, max, max, null, Config.RGB_565,
-                                    new Response.ErrorListener() {
-
-                                        @Override
-                                        public void onErrorResponse(VolleyError error) {
-                                            img.setImageResource(R.drawable.ic_error_outline_black_24dp);
-                                        }
-                                    });*/
-        //img.setImageBitmap(album);
         //VolleyQueueSingleton.getInstance(context).addToRequestQueue(imgReq);
     }
 
@@ -190,7 +172,6 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumViewHol
                 return params;
             }
         };
-
 
         // Access the RequestQueue through your singleton class.
         VolleyQueueSingleton.getInstance(context).addToRequestQueue(request);

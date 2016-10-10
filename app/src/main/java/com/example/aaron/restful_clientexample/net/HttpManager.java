@@ -22,7 +22,6 @@ public class HttpManager {
 
     public static BufferedReader reader = null;
     public static OutputStream os = null;
-    //public static String[] reqTypes = {"POST", "GET", "PUT", "PATCH", "DELETE"};
     public final static   int POST = 0;
     public final static  int GET = 1;
     public final static  int PUT = 2;
